@@ -1,5 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import CustomHeaderButton from '../components/CustomHeaderButton';
 
 const FiltersScreen = (props) => {
   return (
@@ -16,5 +18,20 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   }
 });
+
+FiltersScreen.navigationOptions = (navData) => {
+  return {
+    headerTitle: 'Filter meals',
+    headerLeft: () => (
+      <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+        <Item
+          title="Menu"
+          iconName="ios-menu"
+          onPress={() => navData.navigation.toggleDrawer()}
+        />
+      </HeaderButtons>
+    )
+  };
+};
 
 export default FiltersScreen;
