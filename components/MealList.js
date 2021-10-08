@@ -1,44 +1,47 @@
 import React from 'react';
-import { StyleSheet, View, FlatList } from 'react-native';
+import { View, FlatList, StyleSheet } from 'react-native';
+
 import MealItem from './MealItem';
 
 const MealList = (props) => {
-  const renderMealItem = ({ item }) => {
+  const renderMealItem = (itemData) => {
     return (
       <MealItem
-        title={item.title}
-        duration={item.duration}
-        image={item.imageUrl}
-        complexity={item.complexity}
-        affordability={item.affordability}
+        title={itemData.item.title}
+        image={itemData.item.imageUrl}
+        duration={itemData.item.duration}
+        complexity={itemData.item.complexity}
+        affordability={itemData.item.affordability}
         onSelectMeal={() => {
-          props.navigation.navigate('MealDetail', {
-            mealId: item.id,
-            mealTitle: item.title
+          props.navigation.navigate({
+            routeName: 'MealDetail',
+            params: {
+              mealId: itemData.item.id,
+              mealTitle: itemData.item.title
+            }
           });
         }}
       />
     );
   };
+
   return (
-    <View style={styles.screen}>
+    <View style={styles.list}>
       <FlatList
         data={props.listData}
+        keyExtractor={(item, index) => item.id}
         renderItem={renderMealItem}
-        style={styles.mealsList}
+        style={{ width: '100%' }}
       />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  screen: {
+  list: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
-  },
-  mealsList: {
-    width: '100%',
+    alignItems: 'center',
     padding: 15
   }
 });
